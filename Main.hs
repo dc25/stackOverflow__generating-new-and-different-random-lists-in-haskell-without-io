@@ -22,7 +22,7 @@ randomStuff = do
   e2 <- mkEvenPoly
   return (f, [p0, p1, e0, e1, e2])
 
--- Use do notation to compose multiple monads into one.
+-- Use bind operator to accomplish the same thing as do notation.
 randomStuff2 :: Rand StdGen (Float, [[Integer]])
 randomStuff2 = 
   getRandom  >>= \f ->
