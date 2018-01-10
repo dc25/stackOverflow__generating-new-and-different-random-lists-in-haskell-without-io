@@ -22,11 +22,27 @@ randomStuff = do
   e2 <- mkEvenPoly
   return (f, [p0, p1, e0, e1, e2])
 
+-- Use do notation to compose multiple monads into one.
+randomStuff2 :: Rand StdGen (Float, [[Integer]])
+randomStuff2 = 
+  getRandom  >>= \f ->
+  randomPoly >>= \p0 ->
+  randomPoly >>= \p1 ->
+  mkEvenPoly >>= \e0 ->
+  mkEvenPoly >>= \e1 ->
+  mkEvenPoly >>= \e2 ->
+  return (f, [p0, p1, e0, e1, e2])
+
 main = do
   -- set an initial seed once.
   g0 <- getStdGen 
 
   -- actually generate the random values.
   let (stuff, g1) = runRand randomStuff g0  
+
+  print stuff
+
+  -- use the same seed to generate the same random values 
+  let (stuff, g2) = runRand randomStuff2 g0  
 
   print stuff
